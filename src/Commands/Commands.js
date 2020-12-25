@@ -1,20 +1,21 @@
-Command = require("../Class/Command.js");
+Command = require("../Class/Command")
 class Commands extends Command {
   constructor(client) {
     super(client);
   }
 
-  run() {
-
+  run(command,message,args) {
+    this.list[command](message,args);
   }
 
   list = {
-      dsad
+      test : (message,args) => {
+          message.channel.send("테스트");
+      }
   }
 
-  keys = {
+  keys = Object.keys(this.list);
 
-  }
 }
 
 module.exports = Commands;

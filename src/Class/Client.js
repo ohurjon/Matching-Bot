@@ -16,6 +16,7 @@ class Ohurjon extends Discord.Client {
   }
 
   event_reload() {
+    Events = new Events(this);
     Events.keys.forEach((key) => {
       this.on(key, Events.list[key].bind(this));
     });

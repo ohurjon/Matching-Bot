@@ -1,4 +1,4 @@
-Base = require("./Base");
+Base = require("./Base.js");
 
 class Command extends Base {
   constructor(client) {

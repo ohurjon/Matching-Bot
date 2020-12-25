@@ -1,21 +1,23 @@
 Event = require("../Class/Event.js");
-Commands = require("../Commands/Commands.js);
+Commands = require("../Commands/Commands")
 class Events extends Event {
   constructor(client) {
     super(client);
   }
   list = {
     ready: () => {
-      console.log("Hello!");
+      console.log(this.client.user);
     },
     message: (message) => {
-      console.log(message.content);
+
       if (message.content.startsWith(this.client.config.prefix)) {
+
         let args = message.content.split(" ");
         let command = args[0].replace(this.client.config.prefix, "");
-        let commands = Object.keys(Commands.get());
-        if (commands.indexOf(command) < 0) {
-          Commands.run(command);
+        let cmd = new Commands(this.client);
+        let commands = cmd.keys;
+        if (commands.includes(command)) {
+          cmd.run(command,message,args);
         }
       }
     },
@@ -24,4 +26,4 @@ class Events extends Event {
   keys = Object.keys(this.list);
 }
 
-module.exports = new Events();
+module.exports = Events;
