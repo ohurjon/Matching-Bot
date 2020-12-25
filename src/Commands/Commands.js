@@ -4,18 +4,17 @@ class Commands extends Command {
     super(client);
   }
 
-  run(message) {
-      this.
+  run() {
+
   }
 
-  get() {
-    return {
-      hello: (args) => {
-        console.log(this.client.user.discriminator);
-      },
-      message: (message) => {},
-    };
+  list = {
+      dsad
+  }
+
+  keys = {
+
   }
 }
 
-module.exports = new Commands();
+module.exports = Commands;

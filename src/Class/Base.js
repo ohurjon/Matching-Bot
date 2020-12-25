@@ -1,7 +1,7 @@
 class Base {
-    constructor(client) {
-        this.client = client
-    }
+  constructor(client) {
+    this.client = client;
+  }
 }
 
-module.exports = new Base;
+module.exports = Base;

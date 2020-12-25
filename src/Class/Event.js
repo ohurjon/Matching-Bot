@@ -1,10 +1,9 @@
-Base = require("Base.js")
+Base = require("./Base");
 
 class Event extends Base {
-
-    constructor(client) {
-        super(client);
-        this.name;
-    }
-
+  constructor(client) {
+    super(client);
+  }
 }
+
+module.exports = Event;

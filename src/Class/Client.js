@@ -2,20 +2,24 @@ Discord = require("discord.js");
 
 Config = require("../Data/config.json");
 
-class Ohurjon extends Client {
-    constructor() {
-        super();
-        this.config = Config;
-    }
+Events = require("../Events/Events.js");
 
-    start() {
-        this.client.login(this.config.token)
-        this.event_reload()
-    }
+class Ohurjon extends Discord.Client {
+  constructor(options) {
+    super(options);
+    this.config = Config;
+  }
 
-    event_reload(){
+  start() {
+    this.login(this.config.token);
+    this.event_reload();
+  }
 
-    }
+  event_reload() {
+    Events.keys.forEach((key) => {
+      this.on(key, Events.list[key].bind(this));
+    });
+  }
 }
 
-module.exports = new Ohurjon;
+module.exports = Ohurjon;
