@@ -6,7 +6,7 @@ class Events extends Event {
   }
   list = {
     ready: () => {
-      console.log(this.client.user);
+      console.log(this.client.user.tag);
     },
     message: (message) => {
 
