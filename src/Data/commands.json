@@ -1,0 +1,12 @@
+[
+  {
+    "name": "test",
+    "description": "Test Command",
+    "alias": ["테스트", "t"]
+  },
+  {
+    "name": "test",
+    "description": "Test Command",
+    "alias": ["테스트", "t"]
+  }
+]

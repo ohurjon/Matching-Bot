@@ -11,6 +11,9 @@ class Commands extends Command {
   list = {
       test : (message,args) => {
           message.channel.send("테스트");
+      },
+      room : (message,args) => {
+
       }
   }
 
