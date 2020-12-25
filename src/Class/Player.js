@@ -3,7 +3,10 @@ Base = require("../Class/Base");
 
 class Player {
   constructor(game, member) {
-    this.room = room;
+    this.room = null;
     this.member = member;
+    this.id = member.id;
   }
 }
+
+module.exports = Player;
