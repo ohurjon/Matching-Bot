@@ -22,25 +22,24 @@ class Commands extends Command {
 
       embed.setAuthor("매칭봇", this.client.user.avatarURL());
 
-      if (args.length == 1) {
-        CommandList.forEach((Command) => {
-          if (Command.list) {
+      let ok = false;
+      CommandList.forEach((Command) => {
+        args[1] = args[1] == null ? "help" : args[1];
+        if (Command.name == args[1]) {
+          Command.list.forEach((element) => {
             embed.addField(
-              Command.name,
-              Command.list.find((element) => element.name == "help").description
+              this.client.config.prefix + element.usage,
+              element.description
             );
+            ok = true;
+          });
+        } else {
+          if (!ok) {
+            embed.setDescription("해당 명령어는 존재하지 않습니다.");
           }
-        });
-      } else {
-        CommandList.forEach((Command) => {
-          if (Command.name == args[1]) {
-            Command.list.forEach((element) => {
-              embed.addField(element.usage, element.description);
-            });
-          }
-        });
-      }
-      message.setFooter(message.timestamp)
+        }
+      });
+      embed.setFooter(message.timestamp);
       message.channel.send(embed);
     },
 
