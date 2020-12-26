@@ -19,6 +19,7 @@ class Ohurjon extends Discord.Client {
   getRoom(id) {
     return this.Rooms.get(id);
   }
+
   createRoom(name, game, member) {
     let room = new Room(name, game, member);
     this.Rooms.set(member.id, room);
@@ -29,13 +30,14 @@ class Ohurjon extends Discord.Client {
     this.Rooms.delete(member.id);
   }
 
-  createGame(name, genres) {
-    let game = new Game(name, genres);
-    this.Games.set(game.id, game);
-    return game;
-  }
   getGame(id){
     return this.Games.get(id);
+  }
+
+  createGame(name, genres, picture) {
+      let game = new Game(name, genres,picture);
+      this.Games.set(game.id, game);
+      return game;
   }
 
   removeGame(id){

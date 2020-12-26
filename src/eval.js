@@ -1,5 +1,3 @@
-CommandList = require("./Data/commands.json");
-
-CommandList.forEach((Command) => {
-  console.log(Command.commands);
-});
+if("dsadsaa".indexOf("a")){
+  console.log('adsa')
+}

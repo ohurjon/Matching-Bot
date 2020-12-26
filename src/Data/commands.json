@@ -30,18 +30,28 @@
       },
       {
         "name": "search",
-        "usage": "game search <genre|name|id> [page]",
-        "description": "게임을 검색합니다."
+        "usage": "game search <name|id>",
+        "description": "해당 쿼리에 대한 게임을 찾습니다."
       },
       {
         "name": "create",
-        "usage": "game create <name> <genre>",
-        "description": "게임을 새로 만듭니다."
+        "usage": "game create <name>",
+        "description": "해당 이름을 가진 게임을 새로 만듭니다."
       },
       {
-        "name": "info",
-        "usage": "game info <id>",
-        "description": "게임의 정보를 봅니다."
+        "name": "edit",
+        "usage": "game edit <id> <name|picture> <query>",
+        "description": "해당 아이디를 가진 게임의 정보를 쿼리의 값으로 수정합니다."
+      },
+      {
+        "name": "edit",
+        "usage": "game edit <id> <genre> <add|remove> <query>",
+        "description": "해당 아이디를 가진 게임의 정보를 쿼리의 값으로 수정합니다."
+      },
+      {
+        "name": "list",
+        "usage": "game list",
+        "description": "5개의 랜덤 게임을 보여줍니다."
       }
     ],
     "description": "게임을 만들거나 검색이 가능한 명령어."
@@ -55,8 +65,13 @@
         "description": "room 커맨드 사용법을 봅니다."
       },
       {
+        "name": "search",
+        "usage": "room search <genre|game|id> <query> ",
+        "description": "해당 쿼리에 대한 방을 찾습니다. "
+      },
+      {
         "name": "create",
-        "usage": "room create <name> <game id> <genre>",
+        "usage": "room create <name> <genre>",
         "description": "방을 만듭니다. ( 한 명당 한개씩만 생성 가능합니다.)"
       },
       {
