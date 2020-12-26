@@ -31,7 +31,6 @@ class Room {
   addVoiceChannel(Channel) {
     this.VoiceChannel = Channel;
   }
-
 }
 
 module.exports = Room;

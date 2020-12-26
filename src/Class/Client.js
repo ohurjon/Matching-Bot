@@ -4,6 +4,8 @@ Config = require("../Data/config.json");
 
 Room = require("../Class/Room");
 
+Game = require("../Class/Game");
+
 Events = require("../Events/Events.js");
 
 class Ohurjon extends Discord.Client {
@@ -11,17 +13,33 @@ class Ohurjon extends Discord.Client {
     super(options);
     this.config = Config;
     this.Rooms = new Discord.Collection();
+    this.Games = new Discord.Collection();
   }
 
-  getRoom(id){
+  getRoom(id) {
     return this.Rooms.get(id);
   }
-  createRoom(name,game,member){
-    return this.Rooms.set(member.id,new Room(name,game,member));
+  createRoom(name, game, member) {
+    let room = new Room(name, game, member);
+    this.Rooms.set(member.id, room);
+    return room;
   }
 
-  removeRoom(member){
+  removeRoom(member) {
     this.Rooms.delete(member.id);
+  }
+
+  createGame(name, genres) {
+    let game = new Game(name, genres);
+    this.Games.set(game.id, game);
+    return game;
+  }
+  getGame(id){
+    return this.Games.get(id);
+  }
+
+  removeGame(id){
+    return this.Games.delete(id);
   }
 
   start() {

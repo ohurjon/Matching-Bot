@@ -1,12 +1,18 @@
 [
   {
     "name": "test",
-    "description": "Test Command",
+    "description": "테스트 커맨드",
     "alias": ["테스트", "t"]
   },
   {
-    "name": "test",
-    "description": "Test Command",
-    "alias": ["테스트", "t"]
-  }
+    "name": "room",
+    "commands": [
+      { "name": "", "dscription": "dsada" },
+      { "name": "", "dscription": "dsada" },
+      { "name": "", "dscription": "dsada" },
+      { "name": "", "dscription": "dsada" }
+    ],
+    "description": "방을 만들거나 제어 가능한 명령어 "
+  },
+  {}
 ]
