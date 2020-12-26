@@ -1,18 +1,33 @@
 [
   {
-    "name": "test",
-    "description": "테스트 커맨드",
-    "alias": ["테스트", "t"]
+    "name": "help",
+    "list": [
+      {"name": "help","usage" :"help","description": "이 내용의 채팅을 확인 가능합니다."},
+      {"name": "game" , "usage": "help game" ,"description": "game 커맨드 사용법을 봅니다."},
+      {"name": "room" , "usage": "help room","description": "room 커맨드 사용법을 봅니다." }
+    ],
+    "description": "봇의 명령어들을 확인 가능한 명령어."
+
+  },
+  {
+    "name": "game",
+    "list": [
+      {"name":"help","usage": "game help","description": "game 커맨드 사용법을 봅니다."},
+      {"name":"search","usage": "game search <genre|name|id> [page]","description": "게임을 검색합니다."},
+      {"name":"create","usage": "game create <name> <genre>","description": "게임을 새로 만듭니다."},
+      {"name":"info","usage": "game info <id>","description": "게임의 정보를 봅니다."}
+    ],
+    "description": "게임을 만들거나 검색이 가능한 명령어."
   },
   {
     "name": "room",
-    "commands": [
-      { "name": "", "dscription": "dsada" },
-      { "name": "", "dscription": "dsada" },
-      { "name": "", "dscription": "dsada" },
-      { "name": "", "dscription": "dsada" }
+    "list": [
+      {"name":"help","usage": "room help","description": "room 커맨드 사용법을 봅니다."},
+      { "name":"create","usage": "room create <name> <game id> <genre>", "description": "방을 만듭니다. ( 한 명당 한개씩만 생성 가능합니다.)" },
+      { "name":"join","usage": "room join <id>", "description": "방을 참여합니다." },
+      { "name":"players","usage": "room players", "description": "방의 사람들을 확인합니다." },
+      { "name":"info","usage": "room info", "description": "방의 정보를 확인합니다." }
     ],
     "description": "방을 만들거나 제어 가능한 명령어 "
-  },
-  {}
+  }
 ]

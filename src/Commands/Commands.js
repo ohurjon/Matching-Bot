@@ -13,50 +13,60 @@ class Commands extends Command {
   }
 
   list = {
-    eval: (message, args) => {
-      let text = message.content.replace(`!eval `, "");
-
-      message.channel.send(require("util").inspect(eval(text), { depth: 0 }));
-    },
-
     test: (message, args) => {
       message.channel.send("테스트");
     },
 
     help: (message, args) => {
       let embed = new Embed();
+
       embed.setAuthor("매칭봇", this.client.user.avatarURL());
-      CommandList.forEach((Command) => {
-        embed.addField(Command.name, Command.description);
-      });
+
+      if (args.length == 1) {
+        CommandList.forEach((Command) => {
+          if (Command.list) {
+            embed.addField(
+              Command.name,
+              Command.list.find((element) => element.name == "help").description
+            );
+          }
+        });
+      } else {
+        CommandList.forEach((Command) => {
+          if (Command.name == args[1]) {
+            Command.list.forEach((element) => {
+              embed.addField(element.usage, element.description);
+            });
+          }
+        });
+      }
+      message.setFooter(message.timestamp)
       message.channel.send(embed);
     },
 
     game: (message, args) => {
-      if(args.length == 1) {
-
+      if (args.length == 1) {
+        let embed = new Embed();
+        //embed.setTitle("dASd")
+        embed.setAuthor("매칭봇", this.client.user.avatarURL());
+        embed.setDescription("사용법 : room help");
+        //embed.addField();
+        embed.setFooter(message.member.displayName, message.author.avatarURL());
       }
     },
 
     room: (message, args) => {
       if (args.length == 1) {
         let embed = new Embed();
-        //embed.setTitle("dASd")
         embed.setAuthor("매칭봇", this.client.user.avatarURL());
-        embed.setDescription("사용법 : room create <>");
+        embed.setDescription("사용법 : room help");
         embed.setFooter(message.member.displayName, message.author.avatarURL());
-        //embed.setFooter("")
         message.channel.send(embed);
       } else {
         if (args[1] == "create") {
-
           message.channel.send();
         }
-
-        if (args[1] == "addGenre") {
-          let room = this.client.getRoom(message.author.id);
-          room.game.addGenre("FPS");
-          message.channel.send(JSON.stringify(room));
+        if (args[1] == "help") {
         }
       }
     },

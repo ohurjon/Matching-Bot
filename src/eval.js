@@ -1,9 +1,5 @@
-Ohurjon = require("./Class/Client.js");
+CommandList = require("./Data/commands.json");
 
-client = new Ohurjon();
-
-client.start();
-
-let game = client.createGame("ohurjon",["Rythm"]);
-
-console.log(game);
+CommandList.forEach((Command) => {
+  console.log(Command.commands);
+});
