@@ -1,3 +1,4 @@
-if("dsadsaa".indexOf("a")){
-  console.log('adsa')
-}
+Ohurjon = require("../src/Class/Client");
+client = new Ohurjon();
+client.start();
+client.data_load();

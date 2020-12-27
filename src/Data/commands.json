@@ -30,7 +30,7 @@
       },
       {
         "name": "search",
-        "usage": "game search <name|id>",
+        "usage": "game search <genre|name|game id>",
         "description": "해당 쿼리에 대한 게임을 찾습니다."
       },
       {
@@ -40,12 +40,12 @@
       },
       {
         "name": "edit",
-        "usage": "game edit <id> <name|picture> <query>",
+        "usage": "game edit <game_id> <name|picture> <query>",
         "description": "해당 아이디를 가진 게임의 정보를 쿼리의 값으로 수정합니다."
       },
       {
         "name": "edit",
-        "usage": "game edit <id> <genre> <add|remove> <query>",
+        "usage": "game edit <game_id> <genre> <add|remove> <query>",
         "description": "해당 아이디를 가진 게임의 정보를 쿼리의 값으로 수정합니다."
       },
       {
@@ -66,28 +66,38 @@
       },
       {
         "name": "search",
-        "usage": "room search <genre|game|id> <query> ",
+        "usage": "room search <name|genre|game_id|room_id> <query> ",
         "description": "해당 쿼리에 대한 방을 찾습니다. "
       },
       {
         "name": "create",
-        "usage": "room create <name> <genre>",
+        "usage": "room create <game_id> <name>",
         "description": "방을 만듭니다. ( 한 명당 한개씩만 생성 가능합니다.)"
       },
       {
+        "name": "edit",
+        "usage": "room edit <room_id> <name|game|max|invite> <query>",
+        "description": "해당 아이디를 가진 게임의 정보를 쿼리의 값으로 수정합니다."
+      },
+      {
         "name": "join",
-        "usage": "room join <id>",
-        "description": "방을 참여합니다."
+        "usage": "room join [room_id]",
+        "description": "방을 참여합니다. ( 자신이 만든 방이 있다면 자동으로 참여됩니다. )"
+      },
+      {
+        "name": "open",
+        "usage": "room open <voice|text|all>",
+        "description": "매칭봇 커뮤니티에 자신이 참여하고 있는 방의 새로운 채널을 만듭니다."
       },
       {
         "name": "players",
-        "usage": "room players",
+        "usage": "room <room_id> players",
         "description": "방의 사람들을 확인합니다."
       },
       {
         "name": "info",
         "usage": "room info",
-        "description": "방의 정보를 확인합니다."
+        "description": "참여 중인 방의 정보를 확인합니다."
       }
     ],
     "description": "방을 만들거나 제어 가능한 명령어 "

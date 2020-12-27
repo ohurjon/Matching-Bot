@@ -114,15 +114,39 @@ class Commands extends Command {
           break;
         //game search
         case "search":
+          let games = this.client.Games;
+          let result = [];
           if (args.length >= 3) {
             switch (args[2]) {
+              case "genre":
+                games.forEach((game) => {
+                  this.arg(args, 3).forEach((genre) => {
+                    if (game.genres.indexOf(genre) > -1) {
+                      result.push(game);
+                    }
+                  });
+                });
+                result.forEach((game) => {
+                  let text = "";
+                  game.genres.forEach((genre) => {
+                    text = genre + " " + text;
+                  });
+                  embed.addField(`${game.name} | ${text}`, game.id);
+                });
+                if (result.length < 0) {
+                  embed.setDescription(
+                    `${result.length}개의 게임을 찾았습니다.`
+                  );
+                } else {
+                  embed.setDescription("검색된 내용이 없습니다.");
+                }
+
+                break;
               case "name":
-                let games = this.client.Games;
-                let result = [];
-                games.forEach((e) => {
-                  if (e.name.includes(this.arg_text(args, 3))) {
+                games.forEach((game) => {
+                  if (game.name.includes(this.arg_text(args, 3))) {
                     console.log("ok");
-                    result.push(e);
+                    result.push(game);
                   }
                 });
                 result.forEach((e) => {
@@ -135,10 +159,14 @@ class Commands extends Command {
                   embed.setDescription("검색된 내용이 없습니다.");
                 }
                 break;
-              //game search id
+              //game search id색
               case "id":
                 game = this.client.getGame(args[3]);
-                embed.setDescription("해당 게임의 정보입니다.");
+                if (game) {
+                  embed.setDescription("해당 게임의 정보입니다.");
+                } else {
+                  embed.setDescription("검색된 내용이 없습니다.");
+                }
                 break;
               default:
                 embed.setDescription("해당 타입은 존재하지 않습니다.");
@@ -162,40 +190,46 @@ class Commands extends Command {
         case "edit":
           if (args.length >= 3) {
             game = this.client.getGame(args[2]);
-            switch (args[3]) {
-              // game edit name
-              case "name":
-                game.name = this.arg_text(args, 4);
-                break;
-              //game edit genre
-              case "genre":
-                switch (args[3]) {
-                  // 추가
-                  case "add":
-                    this.arg(args, 3).forEach((e) => game.addGenre(e));
-                    break;
-                  // 제거
-                  case "remove":
-                    this.arg(args, 3).forEach((e) => game.removeGenre(e));
-                    break;
-                }
-                break;
-              case "picture":
-                game.picture = this.arg_text(args, 4);
-                break;
-              default:
-                embed.setDescription("해당 타입은 존재하지 않습니다.");
-                break;
-            }
-            if(game) {
+            if (game) {
+              switch (args[3]) {
+                case "invite":
+                  game.invite = this.arg_text(args, 4);
+                  break;
+                // game edit id name
+                case "name":
+                  game.name = this.arg_text(args, 4);
+                  break;
+                //game edit id genre
+                case "genre":
+                  switch (args[4]) {
+                    // 추가
+                    case "add":
+                      this.arg(args, 5).forEach((e) => game.addGenre(e));
+                      console.log(game);
+                      break;
+                    // 제거
+                    case "remove":
+                      this.arg(args, 5).forEach((e) => game.removeGenre(e));
+                      break;
+                  }
+                  break;
+                case "picture":
+                  game.picture = this.arg_text(args, 4);
+                  break;
+                default:
+                  embed.setDescription("해당 타입은 존재하지 않습니다.");
+                  break;
+              }
               this.client.Games.set(game.id, game);
               embed.setDescription("수정 된 게임의 정보입니다.");
+            } else {
+              embed.setDescription("검색된 게임이 없습니다.");
             }
-
           } else {
             // 사용법 embed 작성
             embed = this.usage(command, args, embed);
           }
+          this.client.data_save();
           break;
       }
       // game 변수가 있다면 embed 정보 작성
@@ -203,7 +237,17 @@ class Commands extends Command {
         if (game.picture) {
           embed.setThumbnail(game.picture);
         }
-        embed.addField("Name", game.name);
+
+        embed.addField("Name", game.name, true);
+
+        if (game.genres.length > 0) {
+          let text = "";
+          game.genres.forEach((genre) => {
+            text = genre + " " + text;
+          });
+          embed.addField("Genre", text, true);
+        }
+
         embed.addField("ID", game.id);
       }
 
@@ -217,6 +261,7 @@ class Commands extends Command {
     ////////////////////////////////////
     room: (command, message, args) => {
       let embed = new Embed();
+      let room;
       embed.setAuthor("매칭봇", this.client.user.avatarURL());
 
       if (!args[1]) args[1] = "help";
@@ -231,24 +276,215 @@ class Commands extends Command {
             );
           });
           break;
-        case "create":
-          let arg;
-          if (args.length >= 4) {
-            for (let i = 0; i < 3; i++) {
-              arg = args.shift();
+
+        case "edit":
+          if (args.length >= 3) {
+            room = this.client.getRoom(args[2]);
+            if (game) {
+              switch (args[3]) {
+                case "invite":
+                  room.invite = this.arg_text(args, 4);
+                  break;
+                // game edit id name
+                case "name":
+                  room.name = this.arg_text(args, 4);
+                  break;
+                //game edit id genre
+                case "picture":
+                  room.game.picture = this.arg_text(args, 4);
+                  break;
+                case "max":
+                  room.MAX = args[4];
+                  break;
+                default:
+                  embed.setDescription("해당 타입은 존재하지 않습니다.");
+                  break;
+              }
+              this.client.Games.set(game.id, game);
+              embed.setDescription("수정 된 게임의 정보입니다.");
+            } else {
+              embed.setDescription("검색된 게임이 없습니다.");
             }
-            let room = this.client.createRoom(args[2], arg, message.member);
-            message.channel.send(JSON.stringify(room));
+          } else {
+            // 사용법 embed 작성
+            embed = this.usage(command, args, embed);
+          }
+          this.client.data_save();
+          break;
+        case "search":
+          let rooms = this.client.Rooms;
+          let result = [];
+          if (args.length >= 3) {
+            switch (args[2]) {
+              case "genre":
+                rooms.forEach((game) => {
+                  this.arg(args, 3).forEach((genre) => {
+                    if (room.game.genres.indexOf(genre) > -1) {
+                      result.push(room);
+                    }
+                  });
+                });
+                result.forEach((room) => {
+                  let text = "";
+                  room.game.genres.forEach((genre) => {
+                    text = genre + " " + text;
+                  });
+                  embed.addField(`${room.game.name} | ${text}`, room.id);
+                });
+                if (result.length < 0) {
+                  embed.setDescription(
+                    `${result.length}개의  방을 찾았습니다.`
+                  );
+                } else {
+                  embed.setDescription("검색된 내용이 없습니다.");
+                }
+
+                break;
+
+              case "name":
+                rooms.forEach((room) => {
+                  console.log(room);
+                  if (room.name.includes(this.arg_text(args, 3))) {
+                    result.push(room);
+                  }
+                });
+                result.forEach((e) => {
+                  embed.addField(e.name, e.id);
+                });
+                embed.setDescription(
+                  `${result.length}개의 방이 검색 되었습니다.`
+                );
+                if (result.length == 0) {
+                  embed.setDescription("검색된 내용이 없습니다.");
+                }
+                break;
+              //game search id
+              case "room_id":
+                room = this.client.getRoom(args[3]);
+                if (room) {
+                  embed.setDescription("해당 방의 정보입니다.");
+                } else {
+                  embed.setDescription("검색된 내용이 없습니다.");
+                }
+                break;
+              default:
+                embed.setDescription("해당 타입은 존재하지 않습니다.");
+                break;
+              case "game_id":
+                rooms.forEach((room) => {
+                  if (room.id.includes(this.arg_text(args, 3))) {
+                    result.push(room);
+                  }
+                });
+                result.forEach((e) => {
+                  embed.addField(room.name, room.id);
+                });
+                embed.setDescription(
+                  `${result.length}개의 방이 검색 되었습니다.`
+                );
+                if (result.length == 0) {
+                  embed.setDescription("검색된 내용이 없습니다.");
+                }
+                break;
+            }
           } else {
             embed = this.usage(command, args, embed);
           }
           break;
+        case "create":
+          if (args.length >= 3) {
+            let game = this.client.getGame(args[2]);
+            if (game) {
+              room = this.client.createRoom(this.arg_text(args,3), game, message.author.id);
+              embed.setDescription("생성된 방의 정보입니다.");
+            } else {
+              embed.setDescription("해당 되는 게임을 찾을 수 없습니다.");
+            }
+          } else {
+            // 사용법 embed 작성
+            embed = this.usage(command, args, embed);
+          }
+          break;
+        case "open":
+          let player = this.client.getPlayer(message.author.id);
+          if (player) {
+            let room = player.room;
+            let permission = [
+              {
+                id: this.client.config.guild,
+                deny: ["VIEW_CHANNEL,SEND_MESSAGES"],
+              },
+              {
+                id: room.Role.id,
+                allow: ["VIEW_CHANNEL,SEND_MESSAGES"],
+              },
+            ];
+            this.client.guild.channels
+              .create(room.name, {
+                type: "category",
+                permissionOverwrites: permission,
+              })
+              .then((Category) => {
+                room.Category;
+                this.client.guild.channels
+                  .create("채팅", {
+                    parent: Category.id,
+                    permissionOverwrites: permission,
+                  })
+                  .then((text) => {
+                    room.TextChannel;
+                  });
+                this.client.guild.channels
+                  .create("음성", {
+                    type: "voice",
+                    parent: Category.id,
+                    permissionOverwrites: permission,
+                  })
+                  .then((voice) => {
+                    room.VoiceChannel;
+                  });
+              });
+            console.log(room);
+          } else {
+            this.usage(command, args, embed);
+          }
+          break;
         case "join":
+          if(!args[2]) args[2] = message.author.id;
+          if(args.length >= 2){
+            room = this.client.getRoom(args[2]);
+            if(room) {
+              room.players.set(message.author.id, this.client.createPlayer(room, message.author.name, message.author.id))
+            } else {
+              embed.setDescription("방이 존재하지 않습니다.")
+            }
+          }
           break;
         case "players":
+          this.client.getRoom(message.author.id).players.forEach(player => {
+            embed.addField(player.name,player.id);
+          })
           break;
         case "info":
+          let p = this.client.getPlayer(message.author.id);
+          if(p){
+            room = p.room;
+          } else {
+            embed.setDescription("참여 중인 방이 없습니다.");
+          }
+
           break;
+      }
+
+      if (room) {
+        embed.addField("Name", room.name, true);
+        embed.addField("Party", `${room.players.size}/${room.MAX}`, true);
+        embed.addField("Room & Owner ID", room.id);
+
+        if (room.VoiceChannel) {
+          embed.addField("VoiceChannel", room.VoiceChannel.name);
+        }
+
       }
 
       embed.setFooter(

@@ -1,8 +1,8 @@
 const Genre = {
-  Classic: "클래식",
+  Classic: "Classic",
   RPG: "RPG",
   FPS: "FPS",
-  Rythm: "리듬",
+  Rythm: "Rythm",
 };
 
 module.exports = {

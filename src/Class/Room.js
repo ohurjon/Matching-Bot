@@ -2,14 +2,17 @@ Discord = require("discord.js");
 Enum = require("../Data/enum");
 Base = require("../Class/Base");
 class Room {
-  constructor(name, game, member) {
+  constructor(name, game, id) {
     this.name = name;
-    this.id = member.id;
+    this.id = id;
     this.players = new Discord.Collection();
     this.game = game;
-    this.MAX = 0;
-    this.MIN = 0;
+    this.MAX = 5;
+    /**this.Category = null;
+    this.TextChannel = null;
     this.VoiceChannel = null;
+    this.Role = null;**/
+    this.invite = null;
   }
 
   addPlayer(Player) {
@@ -28,9 +31,9 @@ class Room {
     if (int > 0) this.MIN = int;
   }
 
-  addVoiceChannel(Channel) {
+  /**addVoiceChannel(Channel) {
     this.VoiceChannel = Channel;
-  }
+  }**/
 }
 
 module.exports = Room;
